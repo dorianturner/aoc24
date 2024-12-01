@@ -16,10 +16,6 @@ int main() {
     }
 
     sort(left.begin(),left.end());
-    
-    // remove duplicates ( method from GfG :( )
-    auto it = unique(left.begin(), left.end());
-    left.erase(it, left.end());
 
     int sum = 0;
     for (int i = 0; i < left.size(); i++) {
