@@ -16,8 +16,7 @@ int main() {
     }
 
     sort(left.begin(),left.end());
-    sort(right.begin(),right.end());
-
+    
     // remove duplicates ( method from GfG :( )
     auto it = unique(left.begin(), left.end());
     left.erase(it, left.end());
