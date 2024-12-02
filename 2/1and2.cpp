@@ -48,11 +48,9 @@ int main() {
 
         while (iss >> num) {
             report.push_back(num);
-            cout << num << endl;
         }
 
         if (safe_with_dampener(report)) {
-            cout << "report is safe" << endl;
             acc++;
         }
     }
