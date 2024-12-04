@@ -14,7 +14,7 @@ int main() {
     int cols = grid[0].size();
     int total = 0;
 
-    // Function to check if a given 3x3 window matches the X-MAS pattern
+    // Check if a given 3x3 window matches the X-MAS pattern
     // OMG! Lambdas in C++, passes in grid by reference [&] from surrounding scope!
     // Doesn't even matter if another array as can infer the name!
     // Thank you ChatGPT for telling me that this exists, 
