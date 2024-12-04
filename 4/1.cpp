@@ -31,7 +31,6 @@ int main() {
         {-1, -1} // Diagonal up-left
     };
 
-    // Check each cell
     for (int r = 0; r < rows; ++r) {
         for (int c = 0; c < cols; ++c) {
             if (grid[r][c] == 'X') {
@@ -47,7 +46,7 @@ int main() {
                             break;
                         }
 
-                        // Move to next cell
+                        // Move to next cell in direction
                         x += dr;
                         y += dc;
                     }
