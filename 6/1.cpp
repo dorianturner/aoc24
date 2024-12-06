@@ -35,11 +35,9 @@ int main() {
     int count = 0;
 
     while (true) {
-        // Check the tile in front of the guard
         int dx = directions[dir].first;
         int dy = directions[dir].second;
 
-        // Check if the guard has moved off the edge of the map
         bool ny_invalid = y + dy < 0 || y + dy >= map[0].size();
         bool nx_invalid = x + dx < 0 || x + dx >= map.size();
         if (nx_invalid || ny_invalid ) {
