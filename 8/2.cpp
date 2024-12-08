@@ -45,6 +45,9 @@ int main() {
 
                 int dx = x2 - x1;
                 int dy = y2 - y1;
+                int common_divisor = gcd(dy, dx);
+                dx /= common_divisor;
+                dy /= common_divisor;
 
                 int ax = x1, ay = y1;
                 while (in_bounds(ax, ay, height, width)) {
