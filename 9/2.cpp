@@ -35,8 +35,10 @@ string printmap(vector<pair<ll, ll>>& file_lengths, vector<ll>& free_space_lengt
             fragmented.push_back('0' + file_id);
         }
 
-        for (ll j = 0; j < free_space_lengths[i]; ++j) {
-            fragmented.push_back('.');
+        if (i < free_space_lengths.size()) {
+            for (ll j = 0; j < free_space_lengths[i]; ++j) {
+                fragmented.push_back('.');
+            }
         }
         
     }
