@@ -2,7 +2,6 @@
 using namespace std;
 typedef long long ll;
 
-// Checksum function to calculate checksum based on positions and file ids
 ll checksum(vector<pair<ll, ll>>& file_lengths, vector<ll>& free_space_lengths) {
     ll total_checksum = 0;
     ll position = 0;
@@ -47,7 +46,7 @@ string printmap(vector<pair<ll, ll>>& file_lengths, vector<ll>& free_space_lengt
 }
 
 void defragment(vector<pair<ll, ll>>& file_lengths, vector<ll>& free_space_lengths) {
-    // cout << printmap(file_lengths, free_space_lengths) << endl;
+    cout << printmap(file_lengths, free_space_lengths) << endl;
     for (ll i = file_lengths.size() - 1; i >= 0; --i) {
         ll file_size = file_lengths[i].first;
         ll file_id = file_lengths[i].second;
@@ -74,7 +73,7 @@ void defragment(vector<pair<ll, ll>>& file_lengths, vector<ll>& free_space_lengt
                 // Remove old block
                 file_lengths.erase(file_lengths.begin() + i + 1);
 
-                // cout << printmap(file_lengths, free_space_lengths) << endl;
+                cout << printmap(file_lengths, free_space_lengths) << endl;
                 break;
             }
         }
@@ -82,7 +81,7 @@ void defragment(vector<pair<ll, ll>>& file_lengths, vector<ll>& free_space_lengt
 }
 
 int main() {
-    ifstream fin("input.in");
+    ifstream fin("test.in");
     vector<ll> dmap;
     vector<pair<ll, ll>> file_lengths;
     vector<ll> free_space_lengths;
