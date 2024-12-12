@@ -56,9 +56,9 @@ void dfs(int x, int y, vector<string>& map, vector<vector<bool>>& visited, char 
         vector<pair<int, int>> diagonals = {{-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
         for (int i = 0; i < 4; ++i) {
             int dx = diagonals[i].first, dy = diagonals[i].second;
-            int adj1_x = cx + dx, adj1_y = cy; // First adjacent cell
-            int adj2_x = cx, adj2_y = cy + dy; // Second adjacent cell
-            int center_x = cx + dx, center_y = cy + dy; // Center diagonal cell
+            int adj1_x = cx + dx, adj1_y = cy; 
+            int adj2_x = cx, adj2_y = cy + dy; 
+            int center_x = cx + dx, center_y = cy + dy; 
 
             if (is_valid(adj1_x, adj1_y) && is_valid(adj2_x, adj2_y) && is_valid(center_x, center_y)) {
                 if (map[adj1_x][adj1_y] == plant_type && map[adj2_x][adj2_y] == plant_type && map[center_x][center_y] != plant_type) {
