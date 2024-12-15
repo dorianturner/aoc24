@@ -2,7 +2,7 @@
 using namespace std;
 typedef long long ll;
 
-ll gpssum (vector<string>& map) {
+ll gpssum(vector<string>& map) {
     ll sum = 0;
     for (int i = 0; i < map.size(); ++i) {
         for (int j = 0; j < map[i].size(); ++j) {
@@ -11,12 +11,48 @@ ll gpssum (vector<string>& map) {
             }
         }
     }
-    
     return sum;
 }
 
-void simulate (vector<string>& map, pair<int,int>& rpos, char m) {
-    
+bool canMoveBlocks(int dx, int dy, int x, int y, vector<string>& map) {
+    if (map[y][x] == '#') {
+        return false;
+    } else if (map[y][x] == '.') {
+        return true;
+    } else {
+        if (dy != 0) {
+            if (map[y][x] == '[') {
+                return canMoveBlocks(dx, dy, x, y + dy, map) && canMoveBlocks(dx, dy, x + 1, y + dy, map);
+            } else {
+                return canMoveBlocks(dx, dy, x, y + dy, map) && canMoveBlocks(dx, dy, x - 1, y + dy, map);
+            }
+        } else {
+            return canMoveBlocks(dx, dy, x + dx, y + dy, map);
+        }
+    }
+}
+
+void moveBlocks(int dx, int dy, int x, int y, vector<string>& map) {
+    if (map[y][x] == '.') {
+        return;
+    }
+    if (dy != 0) {
+        if (map[y][x] == '[') {
+            moveBlocks(dx, dy, x + 1, y + dy, map);
+            map[y + dy][x + 1] = map[y][x + 1];
+            map[y][x + 1] = '.';
+        } else {
+            moveBlocks(dx, dy, x - 1, y + dy, map);
+            map[y + dy][x - 1] = map[y][x - 1];
+            map[y][x - 1] = '.';
+        }
+    }
+    moveBlocks(dx, dy, x + dx, y + dy, map);
+    map[y + dy][x + dx] = map[y][x];
+    map[y][x] = '.';
+}
+
+void simulate(vector<string>& map, pair<int, int>& rpos, char m) {
     vector<pair<int, int>> directions = {
         {-1, 0}, // Up
         {0, 1},  // Right
@@ -31,7 +67,6 @@ void simulate (vector<string>& map, pair<int,int>& rpos, char m) {
         }
         cout << endl;
     }
-    
 
     int dir_index = 0;
     if (m == '^') dir_index = 0;
@@ -45,54 +80,20 @@ void simulate (vector<string>& map, pair<int,int>& rpos, char m) {
     int new_x = rpos.first + dx;
     int new_y = rpos.second + dy;
 
-    char target = map[new_x][new_y];
+    char target = map[new_y][new_x];
+
     if (target == '#') {
         return;
     } else if (target == '.') {
-        swap(map[rpos.first][rpos.second], map[new_x][new_y]);
+        swap(map[rpos.second][rpos.first], map[new_y][new_x]);
         rpos = {new_x, new_y};
-    } else if (target == '[' || target == ']') {
-        int chain_x = new_x;
-        int chain_y = new_y;
-
-        vector<pair<int, int>> block_positions;
-
-        // Check if the current position is part of a chain
-        bool lside = map[chain_x][chain_y] == '[';
-        bool rside = map[chain_x][chain_y] == ']';
-
-        // Collect the entire chain of block positions
-        // Aligned to left bracket for each block []
-        while (lside || rside) {
-            if (lside) {
-                block_positions.push_back({chain_x, chain_y});
-                chain_x += dx;
-                chain_y += dy; // Should change depending on up/down/left right
-            } else {
-                block_positions.push_back({chain_x, chain_y - 1});
-                chain_x += dx;
-                chain_y += dy - 1; // Should change depending on up/down/left right
-            }
-
-            lside = map[chain_x][chain_y] == '[';
-            rside = map[chain_x][chain_y] == ']';
-        }
-
-        for (auto block : block_positions) {
-            // if either the block in front or the block in front or the block infront and right (as [ aligned)
-            // is a #, then return; because the chain cannot move (This is for moving vertically up/down)
-            // if left right, only need to check block at the end of chain is a .
-        }
-
-
-        // Now that checks confirm it is safe to move stack, move it
-        // left/right/up down
-
-        // Update the robot
-        map[new_x][new_y] = '@';
-        map[rpos.first][rpos.second] = '.';
+    } else if (canMoveBlocks(dx, dy, new_x, new_y, map)) {
+        moveBlocks(dx, dy, new_x, new_y, map);
+        swap(map[rpos.second][rpos.first], map[new_y][new_x]);
         rpos = {new_x, new_y};
     }
+
+    return;
 }
 
 int main() {
@@ -128,7 +129,7 @@ int main() {
 
     char m;
     while (sfin >> m) {
-        simulate(map, rpos, m);        
+        simulate(map, rpos, m);
     }
 
     // Print map for debugging
@@ -138,6 +139,6 @@ int main() {
         }
         cout << endl;
     }
-    
+
     cout << gpssum(map) << endl;
 }
